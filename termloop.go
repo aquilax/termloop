@@ -7,7 +7,7 @@ import (
 
 // A Canvas is a 2D array of Cells, used for drawing.
 // The structure of a Canvas is an array of columns.
-// This is so it can be addrssed canvas[x][y].
+// This is so it can be addressed canvas[x][y].
 type Canvas [][]Cell
 
 // NewCanvas returns a new Canvas, with
@@ -42,6 +42,14 @@ func CanvasFromString(str string) Canvas {
 		}
 	}
 	return canvas
+}
+
+func (c Canvas) clear() {
+	for x := range c {
+		for y := range c[x] {
+			c[x][y].reset()
+		}
+	}
 }
 
 // Drawable represents something that can be drawn, and placed in a Level.
@@ -101,6 +109,12 @@ type Event struct {
 	Err    error     // Error, if any
 	MouseX int       // Mouse X coordinate, if any
 	MouseY int       // Mouse Y coordinate, if any
+}
+
+func (c *Cell) reset() {
+	c.Fg = 0
+	c.Bg = 0
+	c.Ch = ' '
 }
 
 func convertEvent(ev termbox.Event) Event {

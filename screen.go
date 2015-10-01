@@ -42,7 +42,12 @@ func (s *Screen) Tick(ev Event) {
 // state of the screen.
 func (s *Screen) Draw() {
 	// Update termloop canvas
-	s.canvas = NewCanvas(s.width, s.height)
+	if s.canvas == nil {
+		s.canvas = NewCanvas(s.width, s.height)
+	} else {
+		s.canvas.clear()
+	}
+
 	if s.level != nil {
 		s.level.DrawBackground(s)
 		s.level.Draw(s)
